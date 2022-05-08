@@ -23,7 +23,8 @@ async function run() {
 
 
 
-    //geting user api
+    //geting user/items api
+
     app.get("/user", async (req, res) => {
       const query = {};
       const cursor = userCollection.find(query);
@@ -31,6 +32,10 @@ async function run() {
       res.send(users);
     });
 
+
+     //geting user/items api using id dynamyclicly
+
+     
     app.get('/user/:id', async(req, res) =>{
         const id = req.params.id;
         const query = {_id: ObjectId(id)};
