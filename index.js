@@ -21,6 +21,9 @@ async function run() {
     await client.connect();
     const userCollection = client.db("foodExpress").collection("user");
 
+
+
+    //geting user api
     app.get("/user", async (req, res) => {
       const query = {};
       const cursor = userCollection.find(query);
