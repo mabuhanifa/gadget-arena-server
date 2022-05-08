@@ -35,13 +35,15 @@ async function run() {
 
      //geting user/items api using id dynamyclicly
 
-     
     app.get('/user/:id', async(req, res) =>{
         const id = req.params.id;
         const query = {_id: ObjectId(id)};
         const result = await userCollection.findOne(query);
         res.send(result);
     });
+
+
+    //adding and posting user/items api
 
     app.post("/user", async (req, res) => {
       const newUser = req.body;
