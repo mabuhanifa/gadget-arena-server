@@ -22,15 +22,13 @@ async function run() {
     await client.connect();
     const userCollection = client.db("foodExpress").collection("user");
 
-    
-    app.post('/login', async (req, res) => {
+    app.post("/login", async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-          expiresIn: '1d'
+        expiresIn: "1d",
       });
       res.send({ accessToken });
-  })
-
+    });
 
     //geting user/items api
 
@@ -41,16 +39,14 @@ async function run() {
       res.send(users);
     });
 
+    //geting user/items api using id dynamyclicly
 
-     //geting user/items api using id dynamyclicly
-
-    app.get('/user/:id', async(req, res) =>{
-        const id = req.params.id;
-        const query = {_id: ObjectId(id)};
-        const result = await userCollection.findOne(query);
-        res.send(result);
+    app.get("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await userCollection.findOne(query);
+      res.send(result);
     });
-
 
     //adding and posting user/items api
 
@@ -62,29 +58,31 @@ async function run() {
     });
 
     //updating user/items api
-    
-    app.put('/user/:id', async(req, res) =>{
-        const id = req.params.id;
-        const updatedItem = req.body;
-        const filter = {_id: ObjectId(id)};
-        const options = { upsert: true };
-        const updatedDoc = {
-            $set: {
-                name: updatedItem.name,
-                price: updatedItem.price,
-                quantity: updatedItem.quantity,
-                email: updatedItem.email,
-                supplier: updatedItem.supplier,
-            }
-        };
-        const result = await userCollection.updateOne(filter, updatedDoc, options);
-        res.send(result);
 
-    })
-
+    app.put("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedItem = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          name: updatedItem.name,
+          price: updatedItem.price,
+          quantity: updatedItem.quantity,
+          email: updatedItem.email,
+          supplier: updatedItem.supplier,
+        },
+      };
+      const result = await userCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+      res.send(result);
+    });
 
     //  deleting user/items api
-    
+
     app.delete("/user/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
